@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Template from './../../../Template/Template';
-import FormField from '../../../components/FormField/FormField';
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
+import Template from "../../../Template/Template"
+import FormField from "../../../components/FormField/FormField"
+import { Button } from "components/Button/Button"
 
 function CadastroCategoria() {
-  const [categorias, setCategorias] = useState([]);
+  const [categorias, setCategorias] = useState([])
   const valoresIniciais = {
-    nome: '',
-    descricao: '',
-    cor: '#000000'
-  };
-  const [values, setValues] = useState(valoresIniciais);
+    nome: "",
+    descricao: "",
+    cor: "#000000"
+  }
+  const [values, setValues] = useState(valoresIniciais)
 
-  function setValue(fieldName, value) {
+  function setValue(chave, valor) {
     setValues({
       ...values,
-      [fieldName]: value
-    });
+      [chave]: valor
+    })
   }
 
-  function handleChange(event) {
-    setValue(event.target.getAttribute('name'), event.target.value);
+  function handleChange(infosDoEvento) {
+    setValue(
+      infosDoEvento.target.getAttribute("name"),
+      infosDoEvento.target.value
+    )
   }
 
   // Dois jeitos de fazer a mesma função
@@ -34,16 +38,15 @@ function CadastroCategoria() {
       <h1>Cadastro de Categoria: {values.nome}</h1>
 
       <form
-        onSubmit={event => {
-          console.log(categorias);
-          event.preventDefault();
-          setCategorias([...categorias, values]);
-          setValues(valoresIniciais);
+        onSubmit={function handleSubmit(e) {
+          e.preventDefault()
+          setCategorias([...categorias, values])
+
+          setValues(valoresIniciais)
         }}
       >
         <FormField
           label="Nome da Categoria"
-          type="text"
           name="nome"
           value={values.nome}
           onChange={handleChange}
@@ -65,18 +68,20 @@ function CadastroCategoria() {
           onChange={handleChange}
         />
 
-        <button type="submit">Cadastrar</button>
+        <Button type="submit">Cadastrar</Button>
       </form>
 
       <ul>
         {categorias.map(categoria => (
-          <li key={categoria.nome}>{categoria.nome}</li>
+          <>
+            <li key={`${categoria.nome}`}>{categoria.nome}</li>
+          </>
         ))}
       </ul>
 
       <Link to="/">Voltar</Link>
     </Template>
-  );
+  )
 }
 
-export default CadastroCategoria;
+export default CadastroCategoria
